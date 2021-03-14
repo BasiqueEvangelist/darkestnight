@@ -1,0 +1,17 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "me.basiqueevangelist.darkestnight.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "mixins": [
+    "HostileEntityMixin",
+    "LightingProviderMixin",
+    "WorldMixin"
+  ],
+  "client": [
+    "client.ClientWorldMixin"
+  ]
+}
