@@ -1,5 +1,6 @@
 package me.basiqueevangelist.darkestnight.mixin.client;
 
+import me.basiqueevangelist.darkestnight.NightUtil;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.util.profiler.Profiler;
 import net.minecraft.util.registry.RegistryKey;
@@ -29,13 +30,16 @@ public abstract class ClientWorldMixin extends World {
     private void adjustWorldLight(CallbackInfoReturnable<Float> cir) {
         float value = (cir.getReturnValue() - 0.2F) / 0.8F * 0.9F + 0.1F;
 
-        if (!isDay()) {
+        float skyAngle = getSkyAngle(0);
+        if (NightUtil.isNight(skyAngle)) {
             int correctedMoonPhase = Math.abs(getMoonPhase() % 8 - 4);
-            value *= (float)(correctedMoonPhase + 4) / 4;
-        }
+            value = NightUtil.lerpEffect(skyAngle, value, value * (correctedMoonPhase) / 4F);
+            value = Math.min(value, 1F);
 
-        value *= 1.0F - (rainGradient) / 6.5F;
-        value *= 1.0F - (thunderGradient) / 6.5F;
+            value *= rainGradient * 0.025F * NightUtil.getNightEffectProgress(skyAngle);
+            value *= thunderGradient * 0.025F * NightUtil.getNightEffectProgress(skyAngle);
+            value = Math.max(value, 0);
+        }
 
         cir.setReturnValue(value);
     }
