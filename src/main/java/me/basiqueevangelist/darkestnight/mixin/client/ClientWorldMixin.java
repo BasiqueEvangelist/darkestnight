@@ -27,11 +27,11 @@ public abstract class ClientWorldMixin extends World {
 
     @Inject(method = "method_23783", at = @At(value = "TAIL"), cancellable = true)
     private void adjustWorldLight(CallbackInfoReturnable<Float> cir) {
-        float value = cir.getReturnValue();
+        float value = (cir.getReturnValue() - 0.2F) / 0.8F * 0.9F + 0.1F;
 
         if (!isDay()) {
             int correctedMoonPhase = Math.abs(getMoonPhase() % 8 - 4);
-            value *= (float)(correctedMoonPhase + 1) / 5;
+            value *= (float)(correctedMoonPhase + 4) / 4;
         }
 
         value *= 1.0F - (rainGradient) / 6.5F;

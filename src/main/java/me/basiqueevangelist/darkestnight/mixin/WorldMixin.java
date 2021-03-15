@@ -24,6 +24,6 @@ public abstract class WorldMixin implements LunarWorldView {
         double rainLight = 1.0D - (double)(this.getRainGradient(1.0F) * 5.0F) / 16.0D;
         double thunderLight = 1.0D - (double)(this.getThunderGradient(1.0F) * 5.0F) / 16.0D;
         double skyLight = 0.5D + 2.0D * MathHelper.clamp(MathHelper.cos(this.getSkyAngle(1.0F) * 6.2831855F), -0.25D, 0.25D);
-        this.ambientDarkness = (int)((1.0D - skyLight * rainLight * thunderLight) * 15.0D);
+        this.ambientDarkness = (int)((1.0D - skyLight * rainLight * thunderLight) * 11.0D);
     }
 }
