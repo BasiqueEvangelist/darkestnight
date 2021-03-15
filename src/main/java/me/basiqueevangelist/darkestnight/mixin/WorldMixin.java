@@ -13,10 +13,15 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class WorldMixin implements LunarWorldView {
     @Shadow private int ambientDarkness;
 
+    @Shadow public abstract boolean isClient();
+
     @Inject(method = "calculateAmbientDarkness", at = @At("TAIL"))
     private void changeAmbientDarkness(CallbackInfo ci) {
-        int correctedMoonPhase = Math.abs(getMoonPhase() % 8 - 4);
+        if (isClient())
+            return;
 
-        ambientDarkness += NightUtil.lerpEffect(getSkyAngle(0), 0, (4 - correctedMoonPhase));
+        int correctedMoonPhase = Math.abs(getDimension().getMoonPhase(this.getLunarTime()) % 8 - 4);
+
+        ambientDarkness += Math.max(0, NightUtil.lerpEffect(getSkyAngle(0), 0, (4 - correctedMoonPhase)));
     }
 }
