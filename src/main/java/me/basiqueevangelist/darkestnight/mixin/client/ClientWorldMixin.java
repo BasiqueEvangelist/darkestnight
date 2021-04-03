@@ -23,7 +23,7 @@ public abstract class ClientWorldMixin extends World {
 
     @Inject(method = "tick", at = @At("TAIL"))
     private void afterTick(CallbackInfo ci) {
-        calculateAmbientDarkness();;
+        calculateAmbientDarkness();
     }
 
     @Inject(method = "method_23783", at = @At(value = "TAIL"), cancellable = true)
